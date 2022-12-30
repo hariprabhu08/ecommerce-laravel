@@ -5,6 +5,7 @@ up:
 	docker compose up
 
 restart:
+	make rm
 	make build
 	make up
 
