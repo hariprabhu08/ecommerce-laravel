@@ -19,9 +19,11 @@ services:
     container_name: ecommmerce-db
     restart: always
     environment:
-      MYSQL_DATABASE: admin
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
+      - MYSQL_DATABASE=chart
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=admin
+      - MYSQL_ROOT_PASSWORD=root
     volumes:
       - ./storage/dbdata:/var/lib/mysql
+    ports:
+      - 33061:3306
