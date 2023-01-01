@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use App\Models\Cart;
 
 use Illuminate\Http\Request;
 
@@ -14,14 +15,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = DB::table('carts')->get()->first();
-        if (empty($cart)) {
-            DB::table('carts')->insert(['created_at' => now(), 'updated_at' => now()]);
-            $cart = DB::table('carts')->get()->first();
-        }
-        $cartItems = DB::table('cart_items')->where('cart_id', $cart->id)->get();
-        $cart = collect($cart);
-        $cart['items'] = collect($cartItems);
+        $cart = Cart::with(['cartItems'])->firstOrCreate();
         
         return response(collect($cart));
     }
