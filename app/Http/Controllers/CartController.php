@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ProductController extends Controller
+use Illuminate\Http\Request;
+
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // $data = $this->getData();
-        $data = DB::table('products')->get();
-        return response($data);
+        $cart = DB::table('carts')->get()->first();
+        if (empty($cart)) {
+            DB::table('carts')->insert(['created_at' => now(), 'updated_at' => now()]);
+            $cart = DB::table('carts')->get()->first();
+        }
+        $cartItems = DB::table('cart_items')->where('cart_id', $cart->id)->get();
+        $cart = collect($cart);
+        $cart['items'] = collect($cartItems);
+        
+        return response(collect($cart));
     }
 
     /**
@@ -37,10 +44,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $this->getData();
-        $newData = $request->all();
-        $data->push(collect($newData));
-        return response($data);
+        //
     }
 
     /**
@@ -74,11 +78,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $form = $request->all();
-        $data = $this->getData();
-        $selectedData = $data->where('id', $id)->first();
-        $selectedData = $selectedData->merge($form);
-        return response($selectedData);
+        //
     }
 
     /**
@@ -89,27 +89,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $data = $this->getData();
-        $data = $data->filter(function ($product) use($id) {
-            return $product['id'] != $id;
-        });
-        return response($data->values());
-    }
-
-    public function getData() {
-        return collect([
-            collect([
-                'id' => 0,
-                'title' => 'test product 1',
-                'content' => 'test content 1',
-                'price' => 50
-            ]),
-            collect([
-                'id' => 1,
-                'title' => 'test product 2',
-                'content' => 'test content 2',
-                'price' => 30
-            ]),
-        ]);
+        //
     }
 }
