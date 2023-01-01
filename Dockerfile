@@ -1,5 +1,8 @@
 FROM php:7.4-fpm-alpine
 
+ARG user
+ARG uid
+
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
 
@@ -11,9 +14,16 @@ RUN alias composer='php /usr/bin/composer'
 WORKDIR /var/www
 
 COPY . /var/www
+COPY php.ini /usr/local/etc/php/php.ini
 
 RUN composer install
 
-COPY php.ini /usr/local/etc/php/php.ini
+RUN adduser -G root -u $uid -D -h /home/$user $user
+# RUN mkdir -p /home/$user/.composer && \
+#     chown -R $user:$user /home/$user
+RUN chown -R www-data:www-data /var/www/vendor
+RUN chmod -R 777 /var/www/vendor
+
+USER $user
 
 CMD php artisan serve --host=0.0.0.0
