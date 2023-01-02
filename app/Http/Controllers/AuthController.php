@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUser;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -20,5 +21,20 @@ class AuthController extends Controller
         ]);
         $user->save();
         return response('success', 201);
+    }
+
+    public function login(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string'
+        ]);
+        if (!Auth::attempt($validatedData)) {
+            return response('Authorization Failed', 401);
+        }
+        $user = $request->user();
+        $tokenResult = $user->createToken('Token');
+        $tokenResult->token->save();
+        return response(['token' => $tokenResult->accessToken]);
     }
 }
