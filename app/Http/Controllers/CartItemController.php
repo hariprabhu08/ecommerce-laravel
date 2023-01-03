@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\UpdateCartItem;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 
 use Illuminate\Http\Request;
 
@@ -52,8 +53,14 @@ class CartItemController extends Controller
             return response($validator->errors(), 400);
         }
         $validatedData = $validator->validate();
+
+        $product = Product::find($validatedData['product_id']);
+        if (!$product->checkQuantity($validatedData['quantity'])) {
+            return response($product->title.'\'s Quantity Not Enough', 400);
+        }
+
         $cart = Cart::find($validatedData['cart_id']);
-        $result = $cart->cartItems()->create(['product_id' => $validatedData['product_id'],
+        $result = $cart->cartItems()->create(['product_id' => $product->id,
                                             'quantity' => $validatedData['quantity']]);
         return response()->json($result);
     }
