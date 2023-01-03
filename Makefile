@@ -9,6 +9,9 @@ restart:
 	make build
 	make up
 
+stop:
+	docker compose stop
+
 down:
 	docker compose down
 
