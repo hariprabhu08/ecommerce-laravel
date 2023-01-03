@@ -60,7 +60,7 @@ export the AQL structure
 ```sh
 docker exec -it ecommmerce-db mysqldump -u root -proot --no-data -d chart > chart.sql
 ```
-draw diagram in [dbdiagram](https://dbdiagram.io/)
+draw diagram in [dbdiagram](https://dbdiagram.io/d/63b3b3ce7d39e42284e88c94)
 ![db diagram](./images/db-structure.png)
 
 
