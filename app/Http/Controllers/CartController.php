@@ -17,9 +17,23 @@ class CartController extends Controller
     {
         $user = auth()->user();
         $cart = Cart::with(['cartItems'])->where('user_id', $user->id)
+                                        ->where('checkouted', false)
                                         ->firstOrCreate(['user_id' => $user->id]);
         
         return response(collect($cart));
+    }
+
+    public function checkout()
+    {
+        $user = auth()->user();
+        $cart = $user->carts()->where('checkouted', false)->with('cartItems')->first();
+        if ($cart) {
+            $result = $cart->checkout();
+            return response($result);
+        }
+        else {
+            return response('No Cart', 400);
+        }
     }
 
     /**
