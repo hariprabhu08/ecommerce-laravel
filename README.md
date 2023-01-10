@@ -9,9 +9,9 @@ Function:
 - Check Quantity
 
 Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ko44wq1JANk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen> </iframe>
 
-
-## Env
+## Environment
 - Ubuntu 22.04
 - Docker 20.10.18
 
@@ -29,7 +29,7 @@ ecommerce-laravel
 - ... : Laravel files. Use [Laravel-8.1.0](https://github.com/laravel/laravel/tree/v8.1.0).
 - images : README.md images.
 
-### Images
+### Docker Images
 1. php → php:7.4-fpm-alpine
 2. mysql → mysql:5.7.22
 
@@ -55,6 +55,21 @@ ecommerce-laravel
     make restart
     ```
 
+## Develop 
+1. go in `php`
+    ```bash
+    docker exec -it ecommerce-backend sh
+    /var/www $
+
+    # write `php artisan` and `composer` code, for example:
+    /var/www $ php artisan migrate
+    /var/www $ composer dump-autoload
+    ```
+2. go in `mysql`
+    ```bash
+    docker exec -it ecommerce-db mysql -u root -p
+    ```
+
 ## SQL Structure
 export the AQL structure
 ```sh
@@ -62,6 +77,19 @@ docker exec -it ecommmerce-db mysqldump -u root -proot --no-data -d chart > char
 ```
 draw diagram in [dbdiagram](https://dbdiagram.io/d/63b3b3ce7d39e42284e88c94)
 ![db diagram](./images/db-structure.png)
+
+
+## TODO
+- [ ] Swagger
+- [ ] UML
+- [ ] Add Contrained cart_id, product_id to cartItems
+- [ ] Create SuperUser
+    - Set User Level API
+    - Fix Product CUD
+- [ ] Review MVC and `php artisan` command
+- [ ] Demo Video
+- [ ] Nginx
+- [ ] Grafana + AlertManager
 
 
 ## Reference
