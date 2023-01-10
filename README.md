@@ -9,7 +9,7 @@ Function:
 - Check Quantity
 
 Demo:<br>
-https://www.youtube.com/embed/ko44wq1JANk
+https://www.youtube.com/watch?v=ko44wq1JANk
 
 ## Environment
 - Ubuntu 22.04
