@@ -16,5 +16,5 @@ down:
 	docker compose down
 
 rm:
-	docker rm ecommmerce-backend ecommmerce-db
+	docker rm ecommerce-backend ecommerce-db
 	docker rmi ecommerce-laravel-backend
