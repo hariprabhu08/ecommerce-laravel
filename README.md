@@ -28,6 +28,7 @@ ecommerce-laravel
 ```
 - ... : Laravel files. Use [Laravel-8.1.0](https://github.com/laravel/laravel/tree/v8.1.0).
 - images : README.md images.
+- .env : Copy and edit from `.env.example`.
 
 ### Docker Images
 1. php → php:7.4-fpm-alpine
@@ -55,7 +56,7 @@ ecommerce-laravel
     make restart
     ```
 
-## Develop 
+## Development
 1. go in `php`
     ```bash
     docker exec -it ecommerce-backend sh
@@ -87,7 +88,7 @@ draw diagram in [dbdiagram](https://dbdiagram.io/d/63b3b3ce7d39e42284e88c94)
     - Set User Level API
     - Fix Product CUD
 - [ ] Review MVC and `php artisan` command
-- [ ] Demo Video
+- [v] Demo Video
 - [ ] Nginx
 - [ ] Grafana + AlertManager
 
