@@ -98,6 +98,12 @@ class CartItemController extends Controller
     {
         $form = $request->validated();
         $item = CartItem::find($id);
+
+        $product = Product::find($item->product_id);
+        if (!$product->checkQuantity($form['quantity'])) {
+            return response($product->title.'\'s Quantity Not Enough', 400);
+        }
+
         $item->fill(['quantity' => $form['quantity']]);
         $item->save();
         return response()->json(true);
