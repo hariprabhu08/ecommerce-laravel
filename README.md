@@ -69,10 +69,12 @@ ecommerce-laravel
 2. go in `mysql`
     ```bash
     docker exec -it ecommerce-db mysql -u root -p
+    Enter password: 
+    mysql> 
     ```
 
 ## SQL Structure
-export the AQL structure
+export the SQL structure
 ```sh
 docker exec -it ecommmerce-db mysqldump -u root -proot --no-data -d chart > chart.sql
 ```
