@@ -1,13 +1,12 @@
+@extends('layouts.app')
+
+@section('content')
 <style>
     .special-text {
         text-align: center;
         background-color: greenyellow;
     }
 </style>
-<div>
-    <a href="/">商品列表</a>
-    <a href="/contact-us">聯絡我們</a>
-</div>
 <h2 style="margin-top: 40px">商品列表</h2>
 <img src="https://s3.getstickerpack.com/storage/uploads/sticker-pack/gunter-adventure-times/sticker_10.png" width="20%" alt="">
 <table>
@@ -55,3 +54,4 @@
         })
     })
 </script>
+@endsection
