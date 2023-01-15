@@ -10,13 +10,15 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $orderCount = Order::count();
+        $orderCount = Order::whereHas('orderItems')->count();
         $dataPerPage = 2;
         $orderPages = ceil($orderCount / $dataPerPage);
         $currentPage = isset($request->all()['page']) ? $request->all()['page'] : 1;
-        $orders = Order::orderBy('created_at', 'desc')
+        $orders = Order::with(['user', 'orderItems.product'])
+                        ->orderBy('created_at', 'desc')
                         ->offset($dataPerPage * ($currentPage - 1))
                         ->limit($dataPerPage)
+                        ->whereHas('orderItems')
                         ->get();
         
         return view('admin.orders.index', ['orders' => $orders,
