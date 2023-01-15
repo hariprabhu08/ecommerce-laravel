@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Cart extends Model
 {
@@ -28,28 +29,31 @@ class Cart extends Model
 
     public function checkout()
     {
-        foreach ($this->cartItems as $cartItem) {
-            $product = $cartItem->product;
-            if (!$product->checkQuantity($cartItem->quantity)) {
-                return $product->title.'\'s Quantity Not Enough';
+        $result = DB::transaction(function () {
+            foreach ($this->cartItems as $cartItem) {
+                $product = $cartItem->product;
+                if (!$product->checkQuantity($cartItem->quantity)) {
+                    return $product->title.'\'s Quantity Not Enough';
+                }
             }
-        }
-        
-        $order = $this->order()->create([
-            'user_id' => $this->user_id
-        ]);
-        if ($this->user->level == 2) {
-            $this->rate = 0.8;
-        }
-        foreach ($this->cartItems as $cartItem) {
-            $order->orderItems()->create([
-                'product_id' => $cartItem->product_id,
-                'price' => $cartItem->product->price * $this->rate
+            
+            $order = $this->order()->create([
+                'user_id' => $this->user_id
             ]);
-            $cartItem->product->update(['quantity' => $cartItem->product->quantity - $cartItem->quantity]);
-        }
-        $this->update(['checkouted' => true]);
-        $order->orderItems;
-        return $order;
+            if ($this->user->level == 2) {
+                $this->rate = 0.8;
+            }
+            foreach ($this->cartItems as $cartItem) {
+                $order->orderItems()->create([
+                    'product_id' => $cartItem->product_id,
+                    'price' => $cartItem->product->price * $this->rate
+                ]);
+                $cartItem->product->update(['quantity' => $cartItem->product->quantity - $cartItem->quantity]);
+            }
+            $this->update(['checkouted' => true]);
+            $order->orderItems;
+            return $order;
+        });
+        return $result;
     }
 }
