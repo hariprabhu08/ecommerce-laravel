@@ -29,7 +29,8 @@ class Cart extends Model
 
     public function checkout()
     {
-        $result = DB::transaction(function () {
+        DB::beginTransaction();
+        try {
             foreach ($this->cartItems as $cartItem) {
                 $product = $cartItem->product;
                 if (!$product->checkQuantity($cartItem->quantity)) {
@@ -52,8 +53,11 @@ class Cart extends Model
             }
             $this->update(['checkouted' => true]);
             $order->orderItems;
+            DB::commit();
             return $order;
-        });
-        return $result;
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return 'Something Error';
+        }
     }
 }
