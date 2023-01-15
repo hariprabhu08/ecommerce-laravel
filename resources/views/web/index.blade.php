@@ -29,8 +29,29 @@
             @endif
             <td>{{ $product->content }}</td>
             <td style="{{ $product->price < 200 ? 'color: red; font-size: 22px;' : ''}}">{{ $product->price }}</td>
-            <td></td>
+            <td><input class="check_product" type="button" value="確認商品數量" data-id="{{ $product->id }}"></td>
         </tr>
         @endforeach
     </tbody>
 </table>
+<script 
+    src="https://code.jquery.com/jquery-3.6.3.min.js" 
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" 
+    crossorigin="anonymous">
+</script>
+<script>
+    $('.check_product').on('click', function(){
+        $.ajax({
+            method: 'POST',
+            url: '/products/check-product',
+            data: {id: $(this).data('id')}
+        })
+        .done(function(response){
+            if (response) {
+                alert('商品數量充足')
+            } else {
+                alert('商品數量不足')
+            }
+        })
+    })
+</script>

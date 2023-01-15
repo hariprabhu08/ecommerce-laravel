@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -17,6 +18,17 @@ class ProductController extends Controller
         // $data = $this->getData();
         $data = DB::table('products')->get();
         return response($data);
+    }
+
+    public function checkProduct(Request $request)
+    {
+        $id = $request->all()['id'];
+        $product = Product::find($id);
+        if ($product->quantity > 0) {
+            return response(true);
+        } else {
+            return response(false);
+        }
     }
 
     /**
