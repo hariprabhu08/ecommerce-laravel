@@ -18,6 +18,8 @@ Route::get('/contact-us', 'WebController@contactUs');
 Route::post('/products/check-product', 'ProductController@checkProduct');
 Route::resource('products', 'ProductController');
 
+Route::resource('admin/orders', 'Admin\OrderController');
+
 Route::post('signup', 'AuthController@signup');
 Route::post('login', 'AuthController@login');
 Route::group(['middleware' => 'auth:api'], function () {
