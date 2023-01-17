@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -15,8 +16,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // $data = $this->getData();
-        $data = DB::table('products')->get();
+        // $data = DB::table('products')->get();
+        $data = json_decode(Redis::get('products'));
         return response($data);
     }
 

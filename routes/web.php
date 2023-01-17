@@ -21,6 +21,7 @@ Route::resource('products', 'ProductController');
 
 Route::resource('admin/orders', 'Admin\OrderController');
 Route::post('admin/orders/{id}/delivery', 'Admin\OrderController@delivery');
+Route::post('admin/tools/create-product-redis', 'Admin\ToolController@createProductRedis');
 
 Route::post('signup', 'AuthController@signup');
 Route::post('login', 'AuthController@login');
