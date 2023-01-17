@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use App\Models\Product;
+use App\Http\Services\ShortUrlService;
 
 class ProductController extends Controller
 {
@@ -32,6 +33,13 @@ class ProductController extends Controller
         }
     }
 
+    public function sharedUrl($id)
+    {
+        $service = new ShortUrlService();
+        $url = $service->makeShortUrl("http://localhost:3000/products/$id");
+        return response(['url' => $url]);
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
