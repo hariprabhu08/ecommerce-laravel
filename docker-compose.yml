@@ -17,6 +17,7 @@ services:
       - 8000:8000
     depends_on:
       - db
+      - redis
 
   db:
     image: mysql:5.7.22
@@ -31,3 +32,11 @@ services:
       - ./storage/dbdata:/var/lib/mysql
     ports:
       - 33061:3306
+
+  redis:
+    image: redis:6.2.6-alpine
+    container_name: ecommerce-redis
+    volumes:
+      - ./storage/rediusdata:/data
+    ports:
+      - 6379:6379
