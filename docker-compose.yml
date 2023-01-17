@@ -4,7 +4,7 @@ services:
     build:
       args:
         - user=$USER
-        - uid=1000
+        - uid=1000  # need to replace with self $uid
       context: .
       dockerfile: Dockerfile
     working_dir: /var/www
