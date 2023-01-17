@@ -3,7 +3,7 @@ services:
   backend:
     build:
       args:
-        - user=yic
+        - user=$USER
         - uid=1000
       context: .
       dockerfile: Dockerfile
