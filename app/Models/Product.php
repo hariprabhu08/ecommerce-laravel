@@ -19,6 +19,10 @@ class Product extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+    public function favorite_users()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
+    }
 
     public function checkQuantity($quantity) {
         if ($this->quantity < $quantity) {
