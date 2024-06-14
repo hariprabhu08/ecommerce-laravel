@@ -1,6 +1,7 @@
 @extends('layouts.admin_app')
 @section('content')
 
+
 <span>訂單總數: {{ $orderCount }}</span>
 <table>
     <thead>
@@ -33,3 +34,4 @@
         <a href="/admin/orders?page={{ $i }}">第{{ $i }}頁</a> &nbsp;
     @endfor
 </div>
+
