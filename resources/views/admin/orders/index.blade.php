@@ -1,6 +1,5 @@
 @extends('layouts.admin_app')
 @section('content')
-<h2>訂單列表</h2>
 <span>訂單總數: {{ $orderCount }}</span>
 <table>
     <thead>
