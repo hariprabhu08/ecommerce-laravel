@@ -18,7 +18,7 @@ COPY php.ini /usr/local/etc/php/php.ini
 
 RUN composer install
 
-RUN adduser -G root -u $uid -D -h /home/$user $user
+RUN adduser -D -h /home/$user -u $uid $user
 # RUN mkdir -p /home/$user/.composer && \
 #     chown -R $user:$user /home/$user
 RUN chown -R www-data:www-data /var/www/vendor
