@@ -1,7 +1,7 @@
 FROM php:7.4-fpm-alpine
 
-ARG user
-ARG uid
+ARG user  # Username for the application user
+ARG uid  # User ID for the application user
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_mysql
@@ -18,12 +18,14 @@ COPY php.ini /usr/local/etc/php/php.ini
 
 RUN composer install
 
-RUN adduser -D -h /home/$user -u $uid $user
-# RUN mkdir -p /home/$user/.composer && \
-#     chown -R $user:$user /home/$user
+# Set ownership of application files (optional, adjust based on your needs)
 RUN chown -R www-data:www-data /var/www/vendor
-RUN chmod -R 777 /var/www/vendor
 
-USER $user
+# Expose web server port (optional, adjust based on your setup)
+EXPOSE 9000
 
+# Use the existing www-data user (adjust if needed)
+USER www-data
+
+# Run the application using artisan serve
 CMD php artisan serve --host=0.0.0.0
