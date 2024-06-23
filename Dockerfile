@@ -1,31 +1,20 @@
-FROM php:7.4-fpm-alpine
+FROM php:7.4-apache
+D
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    libzip-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+    && a2enmod rewrite \
+    && docker-php-ext-install pdo_pgsql zip
 
-ARG user  # Username for the application user
-ARG uid  # User ID for the application user
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+COPY . /var/www/html
 
-# Get latest Composer
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer
-RUN alias composer='php /usr/bin/composer'
+RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/html
 
-COPY . /var/www
-COPY php.ini /usr/local/etc/php/php.ini
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer install --no-dev --optimize-autoloader
 
-RUN composer install
-
-# Set ownership of application files (optional, adjust based on your needs)
-RUN chown -R www-data:www-data /var/www/vendor
-
-# Expose web server port (optional, adjust based on your setup)
-EXPOSE 9000
-
-# Use the existing www-data user (adjust if needed)
-USER www-data
-
-# Run the application using artisan serve
-CMD php artisan serve --host=0.0.0.0
+EXPOSE 80
